@@ -1,0 +1,149 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wordle</title>
+    <link rel="stylesheet" href="{% static 'css/jquery.toast.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jkeyboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/switch.css' %}">
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+    <header>
+<!--        <div class="title"> WORDLE </div>-->
+        <span class="title"> Just for you </span>
+        <label class="switch">
+          <input type="checkbox" onchange="onClickCheckbox(this)">
+          <span class="slider round"></span>
+        </label>
+        <hr class="title_hr">
+    </header>
+    <div class="table_div">
+        <table>
+          <tr id="tr_0">
+            <td></td>
+            <td></td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td class="six">&nbsp</td>
+          </tr>
+          <tr id="tr_1">
+            <td class="active correct">A</td>
+            <td class="active absent">D</td>
+            <td class="active present">I</td>
+            <td class="active">E</td>
+            <td>&nbsp</td>
+            <td class="six">&nbsp</td>
+          </tr>
+          <tr id="tr_2">
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td class="six">&nbsp</td>
+          </tr>
+          <tr id="tr_3">
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td class="six">&nbsp</td>
+          </tr>
+          <tr id="tr_4">
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td class="six">&nbsp</td>
+          </tr>
+          <tr id="tr_5">
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td>&nbsp</td>
+            <td class="six">&nbsp</td>
+          </tr>
+        </table>
+    </div>
+    <div class="btn_div"> <button type="button" class="btn" onclick="onClickRestart()">New Game</button> </div>
+
+<!--    <input type="text" id="search_field">-->
+    <div id="keyboard"></div>
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.toast.min.js' %}"></script>
+    <script src="{% static 'js/jkeyboard.js' %}"></script>
+    <script>
+        $('#keyboard').jkeyboard({
+            layout: "english_capital",
+            input: $('#search_field'),
+            customLayouts: {
+                selectable: ["english_capital"],
+                english_capital: [
+                    ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',],
+                    ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',],
+                    ['enter', 'Z', 'X', 'C', 'V', 'B', 'N', 'M','backspace',],
+                ],
+            }
+        });
+
+        let current_letters_count = 5;  //게임 글자수
+        let answer = "";
+        let correctFlag = true;
+
+        initAnswer();
+
+        function initAnswer(){
+            answer = "COSMO";   //TODO:랜덤 단어 가져오기
+            correctFlag = false;
+        }
+
+        function onClickRestart(){
+            init_table();
+            initAnswer();
+        }
+
+        function onClickCheckbox(checkbox){
+            debugger;
+            let sixthTile = document.getElementsByClassName("six");
+
+            if(checkbox.checked){ // 5->6
+                let msg = "Six-Letter Wordle!";
+                let ret = confirm(msg);
+                if(ret){
+                    current_letters_count = 6;
+                    for (let i=0; i<6; i++){
+                        sixthTile[i].style.display = "revert";
+                    }
+                    init_table();
+                }else {
+                    checkbox.checked = !checkbox.checked;
+                }
+            }else {
+                let msg = "Five-Letter Wordle!";
+                let ret = confirm(msg);
+                if(ret){
+                    current_letters_count = 5;
+                    for (let i=0; i<6; i++){
+                        sixthTile[i].style.display = "none";
+                    }
+                    init_table();
+                }else {
+                    checkbox.checked = !checkbox.checked;
+                }
+            }
+        }
+
+        function init_table(){
+
+        }
+    </script>
+</body>
+</html>

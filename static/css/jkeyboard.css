@@ -1,0 +1,57 @@
+.jkeyboard {
+  display: inline-block;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.jkeyboard, .jkeyboard .jline, .jkeyboard .jline ul {
+  display: block;
+  /*margin: 0;*/
+  padding: 0;
+  margin-left: -6px;
+}
+.jkeyboard .jline {
+  text-align: center;
+  margin-left: -6px;
+}
+.jkeyboard .jline ul li {
+  font-family: arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-block;
+  background-color: #d3d6da;
+  margin: 6px 0 0 6px;
+  color: #242424;
+  border-radius: 3px;
+  width: 42px;
+  height: 52px;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 52px;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.jkeyboard .jline ul li.uppercase {
+  text-transform: uppercase;
+}
+
+/*.jkeyboard .jline ul li:hover, .jkeyboard .jline ul li:active {*/
+/*  background-color: #185a82;*/
+/*}*/
+
+.jkeyboard .jline .enter {
+  width: 69px;
+}
+
+.jkeyboard .jline .backspace {
+  width: 69px;
+  background: url("../assets/backspace.svg") no-repeat center center;
+  background-size: 25px;
+  background-color: #d3d6da;
+}
