@@ -37,6 +37,10 @@
   -ms-user-select: none;
   user-select: none;
 }
+.jkeyboard .jline ul li:active {
+  background-color: #a2a3a6;
+}
+
 .jkeyboard .jline ul li.uppercase {
   text-transform: uppercase;
 }

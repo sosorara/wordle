@@ -135,7 +135,7 @@
                     key_container.addClass(key).html(function_keys[key].text);
                 }
                 else {
-                    key_container.addClass('letter').html(key);
+                    key_container.addClass('letter').addClass('letter_'+key).html(key);
                 }
 
                 line_container.append(key_container);
@@ -150,7 +150,9 @@
                 space_key = $(this.element).find('.space'),
                 backspace_key = $(this.element).find('.backspace'),
                 enter_key = $(this.element).find('.enter'),
-                key_count = 0,
+                key_count = 0,  //누적 key count
+                _key_count = 0; //현재 행 key count
+
 
                 me = this,
                 fkeys = Object.keys(function_keys).map(function (k) {
@@ -158,10 +160,7 @@
                 }).join(',');
 
             letters.on('click', function () {
-                debugger;
-
-                //TODO: 정답 맞혔을 경우 입력 불가
-                if( correctFlag ){
+                if( answerFlag || _key_count === current_letters_count ){
                     return;
                 }
 
@@ -172,34 +171,98 @@
                 td.innerText = $(this).text();
                 td.className += ' active';
 
-                key_count++;
+                userWord += $(this).text();
+                key_count++; _key_count++;
                 // me.type((shift || capslock) ? $(this).text().toUpperCase() : $(this).text());
             });
 
             space_key.on('click', function () {
+                debugger;
                 me.type(' ');
             });
 
             enter_key.on('click', function () {
-                debugger;
                 if( key_count % current_letters_count == 0 ){
-                    //TODO: 존재하는 단어인지 체크
-                    //존재하면 정답비교
+                    //존재하는 단어인지 체크
+                    if( current_letters_count === 5 ){
+                        if( fiveLetterWords.indexOf(userWord) === -1 ){
+                            $.toast('Not in word list.');
+                            return;
+                        }
+                    }else if( current_letters_count === 6 ){
+                        if( sixLetterWords.indexOf(userWord) === -1 ){
+                            $.toast('Not in word list.');
+                            return;
+                        }
+                    }
 
+                    _key_count = 0;
+
+                    //check answer
+                    if( userWord === answerWord ){
+                        answerFlag = true;
+                        $("#newGameBtn").css("display", "inline-block");
+                    }
+
+                    //init array
+                    let ansCheckArr = new Array(), userCheckArr = new Array();
+                    for (let i = 0; i < current_letters_count; i++){
+                        ansCheckArr[i] = false; userCheckArr[i] = false;
+                    }
+
+                    //current row
+                    let tr_num  = parseInt(key_count/current_letters_count) - 1;
+                    let tr_id = "#tr_" + tr_num;
+
+                    const answerWordArr = Array.from(answerWord), userWordArr = Array.from(userWord);
+
+                    //check correct letter
+                    for (let i = 0; i < current_letters_count; i++){
+                        let td = $(tr_id).children()[i];
+                        if( answerWordArr[i] === userWordArr[i] ){
+                            td.className += ' correct';
+                            $(".letter_" + answerWordArr[i]).addClass("correct_key");
+                            ansCheckArr[i] = true; userCheckArr[i] = true;
+                        }
+                    }
+
+                    for (let i = 0; i < current_letters_count; i++){
+                        if( userCheckArr[i] ) continue;
+                        let td = $(tr_id).children()[i];
+                        let _tileCheck = false;
+                        for(let j = 0; j < current_letters_count; j++){
+                            if( !ansCheckArr[j] ){
+                                //check present letter
+                                if( answerWordArr[j] === userWordArr[i] ){
+                                    td.className += ' present';
+                                    if( !$(".letter_" + answerWordArr[j]).hasClass("correct_key") ){
+                                        $(".letter_" + answerWordArr[j]).addClass("present_key");
+                                    }
+                                    ansCheckArr[j] = true;
+                                    _tileCheck = true;
+                                    break;
+                                }
+
+                            }
+                        }
+                        //check absent letter
+                        if( !_tileCheck ){
+                            td.className += ' absent';
+                        }
+                    }
+                    userWord = "";
                 }else {
-                    $.toast('Not enough letters', { type: 'success', duration: 20000 });
+                    $.toast('Not enough letters');
                 }
-                //TODO: 키보드 변경
-
                 // me.type("\n");
                 // me.settings.input.parents('form').submit();
             });
 
             backspace_key.on('click', function () {
-                if( key_count == 0 ){
+                if( _key_count == 0 ){
                     return;
                 }
-                key_count--;
+                key_count--; _key_count--;
                 let tr_num = parseInt(key_count/current_letters_count);
                 let tr_id = "#tr_" + tr_num;
                 let td_num = key_count - current_letters_count * (tr_num);
