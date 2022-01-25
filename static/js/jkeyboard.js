@@ -150,9 +150,6 @@
                 space_key = $(this.element).find('.space'),
                 backspace_key = $(this.element).find('.backspace'),
                 enter_key = $(this.element).find('.enter'),
-                key_count = 0,  //누적 key count
-                _key_count = 0; //현재 행 key count
-
 
                 me = this,
                 fkeys = Object.keys(function_keys).map(function (k) {
@@ -186,12 +183,13 @@
                     //존재하는 단어인지 체크
                     if( current_letters_count === 5 ){
                         if( fiveLetterWords.indexOf(userWord) === -1 ){
-                            $.toast('Not in word list.');
+                            // $.toast('Not in word list.');
+                            toastr.info('Not in word list.');
                             return;
                         }
                     }else if( current_letters_count === 6 ){
                         if( sixLetterWords.indexOf(userWord) === -1 ){
-                            $.toast('Not in word list.');
+                            toastr.info('Not in word list.');
                             return;
                         }
                     }
@@ -252,7 +250,7 @@
                     }
                     userWord = "";
                 }else {
-                    $.toast('Not enough letters');
+                    toastr.info('Not enough letters.');
                 }
                 // me.type("\n");
                 // me.settings.input.parents('form').submit();
@@ -263,6 +261,7 @@
                     return;
                 }
                 key_count--; _key_count--;
+                userWord = userWord.slice(0, -1);
                 let tr_num = parseInt(key_count/current_letters_count);
                 let tr_id = "#tr_" + tr_num;
                 let td_num = key_count - current_letters_count * (tr_num);

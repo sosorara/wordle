@@ -38,13 +38,13 @@ table {
     margin-right:auto;
     /*border : 1px solid black;*/
     border-spacing: 7px;
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: bold;
 }
 
 td {
-    width: 54px;
-    height: 49px;
+    width: 56px;
+    height: 51px;
     padding: 0 0 5px 0;
     border: 2px dashed #c9c9c9;
     text-align: center;
@@ -59,36 +59,36 @@ td {
     animation: correct_move 500ms forwards;
     /*background-color: #6aaa64;*/
     /*color: white;*/
-    /*border: 0;*/
+    /*border : 2px solid #6aaa64;*/
 }
 
 @keyframes correct_move {
     from {background-color: white;}
-    to {background-color: #6aaa64; color: white; border: 0;}
+    to {background-color: #6aaa64; color: white; border : 2px solid #6aaa64;}
 }
 
 .present {
     animation: present_move 500ms forwards;
     /*background-color: #c9b458;*/
     /*color: white;*/
-    /*border: 0;*/
+    /*border : 2px solid #c9b458;*/
 }
 
 @keyframes present_move {
     from {background-color: white;}
-    to {background-color: #c9b458; color: white; border: 0;}
+    to {background-color: #c9b458; color: white; border : 2px solid #c9b458;}
 }
 
 .absent {
     animation: absent_move 500ms forwards;
     /*background-color: #787c7e;*/
     /*color: white;*/
-    /*border: 0;*/
+    /*border : 2px solid #787c7e;*/
 }
 
 @keyframes absent_move {
     from {background-color: white;}
-    to {background-color: #787c7e; color: white; border: 0;}
+    to {background-color: #787c7e; color: white; border: 2px solid #787c7e;}
 }
 
 .six {
@@ -117,7 +117,7 @@ td {
 }
 
 #newGameBtn {
-    /*display: none;*/
+    display: none;
 }
 
 .correct_key {
@@ -128,4 +128,8 @@ td {
 .present_key {
   background-color: #c9b458 !important;
   color: white !important;
+}
+
+.toast {
+    opacity: 1 !important;
 }
